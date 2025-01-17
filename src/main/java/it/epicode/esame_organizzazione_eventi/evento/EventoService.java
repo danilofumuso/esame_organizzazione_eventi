@@ -22,7 +22,11 @@ public class EventoService {
     @Autowired
     private AppUserRepository appUserRepository;
 
-    public List<Evento> findAllEventiOrganizzatore(String username){
+    public List<Evento> findAll() {
+        return eventoRepository.findAll();
+    }
+
+    public List<Evento> findAllEventiOrganizzatore(String username) {
         return appUserRepository.findEventiByOrganizzatoreId(appUserRepository.findByUsername(username).get().getId());
     }
 
@@ -35,7 +39,7 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public Evento modifyEvento(Long id, @Valid EventoDTO eventoDTO, String username){
+    public Evento modifyEvento(Long id, @Valid EventoDTO eventoDTO, String username) {
         Evento evento = eventoRepository.findById(id).orElseThrow(() -> new EventoNotFoundException("Evento non trovato!"));
         BeanUtils.copyProperties(eventoDTO, evento);
 
@@ -45,7 +49,7 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public void deleteEvento(Long id, String username){
+    public void deleteEvento(Long id, String username) {
 
         Evento evento = eventoRepository.findById(id)
                 .orElseThrow(() -> new EventoNotFoundException("Evento non trovato!"));

@@ -17,8 +17,13 @@ public class EventoController {
     private EventoService eventoService;
 
     @GetMapping
+    public ResponseEntity<List<Evento>> getAllEventi() {
+        return ResponseEntity.ok(eventoService.findAll());
+    }
+
+    @GetMapping("/eventi_organizzatore")
     @PreAuthorize("hasRole('ROLE_ORGANIZZATORE') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Evento>> getAllEventi(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+    public ResponseEntity<List<Evento>> getAllEventiOrganizzatore(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
         return ResponseEntity.ok(eventoService.findAllEventiOrganizzatore(user.getUsername()));
     }
 
