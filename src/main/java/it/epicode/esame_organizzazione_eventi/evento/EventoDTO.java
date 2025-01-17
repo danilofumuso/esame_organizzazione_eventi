@@ -17,6 +17,4 @@ public class EventoDTO {
 
     private int postiDisponibili;
 
-    private Long organizzatoreId;
-
 }
