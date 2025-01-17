@@ -22,12 +22,6 @@ public class EventoService {
     @Autowired
     private AppUserRepository appUserRepository;
 
-
-    public Evento findEvento(@Valid Long id){
-        return eventoRepository.findById(id)
-                .orElseThrow(() -> new EventoNotFoundException("Evento non trovato!"));
-    }
-
     public List<Evento> findAllEventiOrganizzatore(String username){
         return appUserRepository.findEventiByOrganizzatoreId(appUserRepository.findByUsername(username).get().getId());
     }

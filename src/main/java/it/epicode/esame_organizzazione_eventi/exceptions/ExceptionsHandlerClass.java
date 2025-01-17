@@ -1,5 +1,5 @@
 package it.epicode.esame_organizzazione_eventi.exceptions;
-import jakarta.persistence.EntityNotFoundException;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,22 +16,30 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionsHandlerClass extends ResponseEntityExceptionHandler {
 
+        @ExceptionHandler(value = UserNotFoundException.class)
+        protected ResponseEntity<Object> userNotFound(UserNotFoundException e) {
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
         @ExceptionHandler(value = EventoNotFoundException.class)
         protected ResponseEntity<Object> eventoNotFound(EventoNotFoundException e) {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        @ExceptionHandler(value = UserNotFoundException.class)
-        protected ResponseEntity<Object> userNotFound(UserNotFoundException e) {
+        @ExceptionHandler(value = PrenotazioneNotFoundException.class)
+        protected ResponseEntity<Object> prenotazioneNotFound(PrenotazioneNotFoundException e) {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        @ExceptionHandler(value = PrenotazioneNonEffettuabileException.class)
+        protected ResponseEntity<Object> prenotazioneNonEffettuabile(PrenotazioneNonEffettuabileException e) {
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         @ExceptionHandler(value = AccessDeniedException.class)
         protected ResponseEntity<Object> accessDenied(AccessDeniedException e) {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.FORBIDDEN);
         }
-
-
 
      //da usare per la validazione, notation sugli attributi delle entities tipo @NotBlank,
     //e usare nel service notation @Validated e @Valid per ogni metodo che vuole validazione!

@@ -2,6 +2,7 @@ package it.epicode.esame_organizzazione_eventi.evento;
 
 import it.epicode.esame_organizzazione_eventi.auth.AppUser;
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 import java.time.LocalDate;

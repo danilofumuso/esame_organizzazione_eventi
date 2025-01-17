@@ -22,12 +22,6 @@ public class EventoController {
         return ResponseEntity.ok(eventoService.findAllEventiOrganizzatore(user.getUsername()));
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Evento> getEvento(@PathVariable Long id) {
-        return ResponseEntity.ok(eventoService.findEvento(id));
-    }
-
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ORGANIZZATORE') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Evento> createEvento(@RequestBody EventoDTO eventoDTO,
