@@ -35,7 +35,7 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public Evento modifyEvento(@Valid Long id, @Valid EventoDTO eventoDTO, String username){
+    public Evento modifyEvento(Long id, @Valid EventoDTO eventoDTO, String username){
         Evento evento = eventoRepository.findById(id).orElseThrow(() -> new EventoNotFoundException("Evento non trovato!"));
         BeanUtils.copyProperties(eventoDTO, evento);
 
@@ -45,7 +45,7 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public void deleteEvento(@Valid Long id, String username){
+    public void deleteEvento(Long id, String username){
 
         Evento evento = eventoRepository.findById(id)
                 .orElseThrow(() -> new EventoNotFoundException("Evento non trovato!"));
@@ -55,6 +55,5 @@ public class EventoService {
         }
         eventoRepository.delete(evento);
     }
-
 
 }

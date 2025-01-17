@@ -12,11 +12,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Validated
 public class PrenotazioneService {
 
     @Autowired
@@ -53,7 +55,7 @@ public class PrenotazioneService {
         return prenotazioneRepository.save(prenotazione);
     }
 
-    public void deletePrenotazione(@Valid Long id, String username){
+    public void deletePrenotazione(Long id, String username){
 
       Prenotazione prenotazione = prenotazioneRepository.findById(id)
                 .orElseThrow(() -> new PrenotazioneNotFoundException("Prenotazione non trovata!"));
