@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class PrenotazioneController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Prenotazione>> getAllPrenotazioni(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+    public ResponseEntity<List<Prenotazione>> getAllPrenotazioni(@AuthenticationPrincipal UserDetails user) {
 
         return ResponseEntity.ok(prenotazioneService.findAllPrenotazioniUser(user.getUsername()));
     }
@@ -26,7 +27,7 @@ public class PrenotazioneController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Prenotazione> createPrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO,
-                                                           @AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+                                                           @AuthenticationPrincipal UserDetails user) {
 
         return new ResponseEntity<>(prenotazioneService.createPrenotazione(prenotazioneDTO, user.getUsername()), HttpStatus.CREATED);
     }
@@ -34,7 +35,7 @@ public class PrenotazioneController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deletePrenotazione(@PathVariable Long id,
-                                                     @AuthenticationPrincipal org.springframework.security.core.userdetails.User user){
+                                                     @AuthenticationPrincipal UserDetails user){
 
         prenotazioneService.deletePrenotazione(id, user.getUsername());
         return new ResponseEntity<>("Prenotazione eliminata con successo",HttpStatus.NO_CONTENT);

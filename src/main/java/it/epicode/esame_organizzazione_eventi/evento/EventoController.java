@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,14 +24,14 @@ public class EventoController {
 
     @GetMapping("/eventi_organizzatore")
     @PreAuthorize("hasRole('ROLE_ORGANIZZATORE') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Evento>> getAllEventiOrganizzatore(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+    public ResponseEntity<List<Evento>> getAllEventiOrganizzatore(@AuthenticationPrincipal UserDetails user) {
         return ResponseEntity.ok(eventoService.findAllEventiOrganizzatore(user.getUsername()));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ORGANIZZATORE') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Evento> createEvento(@RequestBody EventoDTO eventoDTO,
-                                               @AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+                                               @AuthenticationPrincipal UserDetails user) {
         return new ResponseEntity<>(eventoService.createEvento(eventoDTO, user.getUsername()), HttpStatus.CREATED);
     }
 
@@ -38,7 +39,7 @@ public class EventoController {
     @PreAuthorize("hasRole('ROLE_ORGANIZZATORE') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Evento> updateEvento(@PathVariable Long id,
                                                @RequestBody EventoDTO eventoDTO,
-                                               @AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+                                               @AuthenticationPrincipal UserDetails user) {
         Evento evento = eventoService.modifyEvento(id, eventoDTO, user.getUsername());
         return ResponseEntity.ok(evento);
     }
@@ -46,7 +47,7 @@ public class EventoController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ORGANIZZATORE') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteEvento(@PathVariable Long id,
-                                               @AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+                                               @AuthenticationPrincipal UserDetails user) {
         eventoService.deleteEvento(id, user.getUsername());
         return new ResponseEntity<>("Evento Eliminato con successo", HttpStatus.NO_CONTENT);
     }
